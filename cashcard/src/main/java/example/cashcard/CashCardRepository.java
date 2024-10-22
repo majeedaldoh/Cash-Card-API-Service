@@ -1,8 +1,12 @@
 package example.cashcard;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-// CREATE the database
-// connect to the database of the actual
-public interface CashCardRepository extends CrudRepository<CashCard, Long>{
+
+@Repository
+
+
+public interface CashCardRepository extends JpaRepository<CashCard, Long> {
+
 }

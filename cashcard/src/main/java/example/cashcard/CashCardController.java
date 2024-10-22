@@ -1,10 +1,11 @@
 package example.cashcard;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
+import java.net.URL;
 import java.util.Optional;
 
 
@@ -27,5 +28,16 @@ public class CashCardController {
         } else{
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostMapping("")
+    private ResponseEntity<Void> createCashCard(@RequestBody CashCard newCashCard, UriComponentsBuilder ucb) {
+        CashCard savedCashCard = cashCardRepository.save(newCashCard);
+        //Long objectID = cashCard.getId();
+        URI locationOfNewCardCash = ucb
+                .path("/cashcards/{objectID}")
+                .buildAndExpand(savedCashCard.getId())
+                .toUri();
+        return ResponseEntity.created(locationOfNewCardCash).build();
     }
 }

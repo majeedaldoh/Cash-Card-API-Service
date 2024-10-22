@@ -1,19 +1,18 @@
 package example.cashcard;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "cashcard")
 public class CashCard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private Long id;
+    @Column(name = "amount")
     private double amount;
 
-    // protected CashCard(){}
+    protected CashCard(){}
 
     public CashCard(double amount) {
         this.amount = amount;
@@ -25,7 +24,6 @@ public class CashCard {
     public Long getId() {
         return id;
     }
-
     public double getAmount() {
         return amount;
     }
