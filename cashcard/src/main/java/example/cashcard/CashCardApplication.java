@@ -21,15 +21,19 @@ public class CashCardApplication {
 	@Bean
 	public CommandLineRunner query(CashCardRepository repository){
 		return (args) -> {
-			repository.save(new CashCard( 100.0));
-			repository.save(new CashCard( 50.0));
+			CashCard cashCard1 = new CashCard();
+			CashCard cashCard2 = new CashCard();
+			cashCard1.setAmount(100.0);
+			cashCard2.setAmount(200.0);
+			repository.save(cashCard1);
+			repository.save(cashCard2);
 
 			log.info("CashCards Found by findAll() are:");
 			repository.findAll().forEach(cashCard ->{
 				log.info(cashCard.toString());
 			});
-			Optional<CashCard> cashCard1 = repository.findById(1L);
-			log.info(cashCard1.toString());
+			/*Optional<CashCard> cashCard = repository.findById(1L);
+			log.info(cashCard1.toString());*/
 		};
 	}
 }

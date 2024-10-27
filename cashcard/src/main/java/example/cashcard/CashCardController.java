@@ -1,11 +1,13 @@
 package example.cashcard;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -13,31 +15,35 @@ import java.util.Optional;
 @RequestMapping("/cashcards")
 public class CashCardController {
 
+    @Autowired
     private final CashCardRepository cashCardRepository;
+    CashCardService cardService;
 
-    private CashCardController(CashCardRepository cashCardRepository){
+    private CashCardController(CashCardRepository cashCardRepository) {
         this.cashCardRepository = cashCardRepository;
     }
+
+    @GetMapping("")
+    private void greet(){
+        System.out.println("Greetings from CashCardController");
+    }
     @GetMapping("/{requestedId}")
-    private ResponseEntity<CashCard> findById(@PathVariable Long requestedId){
-        Optional<CashCard> optionalCashCard = cashCardRepository.findById(requestedId);
-        // calling the cashcard table and checking that we have a cashcard with the requested id
-        if(optionalCashCard.isPresent()) {
-            // code to call repository to call the cashcard with requested id and return the row.
-            return ResponseEntity.ok(optionalCashCard.get());
-        } else{
-            return ResponseEntity.notFound().build();
-        }
+    private CashCard findById(@PathVariable Long requestedId) {
+        return cardService.findById(requestedId);
     }
 
-    @PostMapping("")
-    private ResponseEntity<Void> createCashCard(@RequestBody CashCard newCashCard, UriComponentsBuilder ucb) {
-        CashCard savedCashCard = cashCardRepository.save(newCashCard);
-        //Long objectID = cashCard.getId();
-        URI locationOfNewCardCash = ucb
-                .path("/cashcards/{objectID}")
-                .buildAndExpand(savedCashCard.getId())
-                .toUri();
-        return ResponseEntity.created(locationOfNewCardCash).build();
+    @GetMapping("/all")
+    private List<CashCard> findAll() {
+        return cardService.findAll();
+    }
+
+
+    @PostMapping("/add")
+    private ResponseEntity<Void> createCashCard(@RequestParam double amount, UriComponentsBuilder ucb) {
+
+
+        CashCard newCashCard = new CashCard();
+        newCashCard.setAmount(amount);
+        return cardService.save(newCashCard, ucb);
     }
 }

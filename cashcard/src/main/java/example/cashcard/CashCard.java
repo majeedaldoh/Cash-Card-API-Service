@@ -14,9 +14,9 @@ public class CashCard {
 
     protected CashCard(){}
 
-    public CashCard(double amount) {
+    /*public CashCard(double amount) {
         this.amount = amount;
-    }
+    }*/
 
     public String toString() {
         return String.format("CashCard[id=%d, amount=%f]", id, amount);
@@ -26,5 +26,8 @@ public class CashCard {
     }
     public double getAmount() {
         return amount;
+    }
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 }
