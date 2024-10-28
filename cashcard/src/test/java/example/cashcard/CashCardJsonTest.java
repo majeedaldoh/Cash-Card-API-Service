@@ -19,7 +19,8 @@ public class CashCardJsonTest {
     CashCardRepository repository;
     @Test
     void cashCardSerializationTest() throws IOException{
-        CashCard cashCard = new CashCard( 123.45);
+        CashCard cashCard = new CashCard();
+        cashCard.setAmount(123.45);
 
         repository.save(cashCard);
 //        CashCard testCashCardEntity =
