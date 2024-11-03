@@ -9,7 +9,6 @@ public class CashCard {
     private Long id;
     private double amount;
 
-
     public Long getId() {
         return id;
     }
